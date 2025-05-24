@@ -1,7 +1,8 @@
+import bcrypt from 'bcryptjs';
 import UserModel from "../models/User.model";
 import {ApiError} from '../utils/ApiError';
+import {JwtService} from "../utils/JwtService";
 import {generateInvalidCode, generateNotFoundCode} from "../utils/generateErrorCodes";
-import bcrypt from 'bcryptjs';
 
 class AuthService {
     static async loginUser(body: any) {
@@ -17,7 +18,9 @@ class AuthService {
             throw new ApiError(generateInvalidCode('credentials'), 'Invalid credentials', 400);
         }
 
-        return checkExistingEmail;
+        const token = JwtService.generateToken(checkExistingEmail._id.toString());
+
+        return {user: checkExistingEmail, token};
     }
 
     static async registerUser(body: any) {
@@ -32,6 +35,15 @@ class AuthService {
             name, email, password, acc_type,
         });
         console.log('user created:', user);
+
+        return user;
+    }
+
+    static async profileUser(userId: string) {
+        const user = await UserModel.findById(userId).select('name email acc_type -_id');
+        if (!user) {
+            throw new ApiError(401, 'Profile not found');
+        }
 
         return user;
     }

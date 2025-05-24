@@ -5,6 +5,8 @@ A secure and scalable Node.js REST API for a digital banking application built w
 
 ---
 
+MongoDB: https://cloud.mongodb.com/v2/68221ceb1ee2663d42820c18#/metrics/replicaSet/68221e58b65bca45f63335ff/explorer/kono-banking/users/find
+
 ## 🚀 Tech Stack
 
 🧠 **Language**: TypeScript – Type-safe, scalable development.
@@ -84,3 +86,6 @@ npm run dev
 
 ### Express Validator - https://www.npmjs.com/package/express-validator
     npm i express-validator
+
+### JsonWebToken - https://www.npmjs.com/package/jsonwebtoken
+    npm i jsonwebtoken

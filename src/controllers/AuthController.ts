@@ -6,11 +6,12 @@ import {ApiError} from "../utils/ApiError";
 class AuthController {
     static async loginUser(req: Request, res: Response) {
         try {
-            const user = await AuthService.loginUser(req.body);
+            const {user, token} = await AuthService.loginUser(req.body);
             return res.status(200).send(new ApiResponse({
                 success: true,
                 message: 'Login successful',
                 user,
+                token,
             }));
         } catch (error: any) {
             console.log('error:', error);
@@ -48,6 +49,16 @@ class AuthController {
                 errorMsg: error instanceof ApiError ? error.message : 'Internal server error',
             }));
         }
+    }
+
+    static async profileUser(req: Request, res: Response) {
+        const {userId} = req.body;
+        const user = await AuthService.profileUser(userId);
+        return res.status(200).send(new ApiResponse({
+            success: true,
+            message: 'Profile fetched',
+            user,
+        }));
     }
 }
 
